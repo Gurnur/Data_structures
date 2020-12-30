@@ -4,3 +4,7 @@
 
 # MAC specific files
 **/.DS_Store
+
+# VSCode specific files
+*.vscode/
+
