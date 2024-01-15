@@ -1,44 +1,26 @@
 from collections import defaultdict
-
-class Graph:
-    """
-    Approach: Recursive DFS
-    TC: O(V+E)
-    SC: O(V)
-    """
-    def __init__(self):
+class DFS:
+    def __init__(self, n, edges):    
         self.graph = defaultdict(list)
-        self. res = []
-    
-    def add_edge(self, u, v):
-        self.graph[u].append(v)
-
-    def dfs_recur(self, source, visited):
-        visited[source] = True
-        self.res.append(source)
-
-        for adj in self.graph[source]:
-            if visited[adj] == False:
-                self.dfs_recur(adj, visited)
-
-    def dfs(self):
-        v = len(self.graph) + 1
-        visited = [False] * (v)
-
-        for i in range(v):
-            if visited[i] == False:
-                self.dfs_recur(i, visited)
-        
+        self.n = n
+        self.visited = set()
+        self.res = []
+        for (src, dst) in edges:
+            self.graph[src].append(dst)
+            
+    def dfs(self, node):
+        self.visited.add(node)
+        self.res.append(node)
+        for neighbor in self.graph[node]:
+            if neighbor not in self.visited:
+                self.dfs(neighbor)
+                    
+    def dfs_recursive(self, n):
+        for i in range(1, n+1):
+            if i not in self.visited:
+                self.dfs(i)
         return self.res
-
-g = Graph()
-g.add_edge(0, 1) 
-g.add_edge(0, 2) 
-g.add_edge(1, 2) 
-g.add_edge(2, 0) 
-g.add_edge(2, 3) 
-g.add_edge(3, 3) 
-g.add_edge(4, 5)
-g.add_edge(4, 3)
-
-print(g.dfs())
+n = 6
+cities = [(1,3), (1,2), (2,4), (3,5), (4,6)]
+obj = DFS(n, cities)
+print(obj.dfs_recursive(n))

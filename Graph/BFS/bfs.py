@@ -1,34 +1,34 @@
 from collections import defaultdict, deque
-
-class Graph:
-    def __init__(self):
+class BFS:
+    def __init__(self, n, edges):
+        self.n = n
         self.graph = defaultdict(list)
+        self.visited = set()
+        self.res = []
 
-    def add_edge(self, u, v):
-        self.graph[u].append(v)
+        for (src,dst) in edges:
+            self.graph[src].append(dst)
 
-    def bfs(self, source):
-        visited = [False] * len(self.graph)
-
+    def bfs(self, node):
         queue = deque()
-
-        queue.append(source)
-        visited[source] = True
+        queue.append(node)
+        self.visited.add(node)
 
         while queue:
-            adj_node = queue.popleft()
-            print(" ", adj_node)
-            for i in self.graph[adj_node]:
-                if visited[i] == False:
-                    queue.append(i)
-                    visited[i] = True
+            node = queue.popleft()
+            self.res.append(node)
+            for neighbor in self.graph[node]:
+                if neighbor not in self.visited:
+                    queue.append(neighbor)
+                    self.visited.add(neighbor)
 
-g = Graph()
-g.add_edge(0, 1) 
-g.add_edge(0, 2) 
-g.add_edge(1, 2) 
-g.add_edge(2, 0) 
-g.add_edge(2, 3) 
-g.add_edge(3, 3)
+    def bfs_iterative(self, n):
+        for i in range(1, n+1):
+            if i not in self.visited:
+                self.bfs(i)
+        return self.res
 
-g.bfs(2)
+n = 6
+cities = [(1,3), (2,1), (4,2), (3,5), (6,4)]
+obj = BFS(n, cities)
+print(obj.bfs_iterative(n))

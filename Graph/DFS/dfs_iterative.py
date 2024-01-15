@@ -3,7 +3,7 @@ from collections import defaultdict
 class Graph:
     """
     Approach: Iterative DFS using stack
-    TC: O(V+E)
+    TC: O(E)
     SC: O(V)
     """
     def __init__(self, n, edges):
